@@ -1,6 +1,8 @@
 # Created by https://www.gitignore.io/api/unity
 # Edit at https://www.gitignore.io/?templates=unity
 
+Assets/Plugins
+Assets/Photon
 ProjectSettings/
 *.meta
 *.log
@@ -20,7 +22,7 @@ Assets/Plugins/Editor/JetBrains*
 [Bb]uild/
 [Bb]uilds/
 Assets/AssetStoreTools*
-Assets/Photon
+
 # Visual Studio cache directory
 .vs/
 
