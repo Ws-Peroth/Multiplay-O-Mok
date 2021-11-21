@@ -125,6 +125,8 @@ public class EventReceiver : PunSingleton<EventReceiver>,IOnEventCallback
         var turn = (bool) data;
         TurnManager.instance.IsMyTurn = turn;
         TurnManager.instance.MyColor = (int) (turn ? StoneColorTypes.Black : StoneColorTypes.White);
+        TurnManager.instance.OtherColor = (int) (!turn ? StoneColorTypes.Black : StoneColorTypes.White);
+        
         Debug.Log($"[Receiver] MyTurn : {turn.ToString()}, Color : {TurnManager.instance.MyColor.ToString()}");
     }
 }
