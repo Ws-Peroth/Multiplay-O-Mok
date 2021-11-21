@@ -8,6 +8,7 @@ using UnityEngine;
 public class FieldManager : Singleton<FieldManager>
 {
     private PhotonView _photonView;
+    private const int _winStoneCount = 5;
     private const int _fieldSize = 19;
     private const int _boardPivotX = -8;
     private const int _boardPivotY = 4;
@@ -52,10 +53,47 @@ public class FieldManager : Singleton<FieldManager>
         omokBoardData[y, x] = setColor;
         _omokStoneGameObjects[y, x].Status = setColor;
         _omokStoneGameObjects[y, x].SetSprite(setColor);
+        FieldCheck(x, y, setColor);
     }
-
-    public void FieldCheck()
+    
+    public void FieldCheck(int x, int y, int setColor)
     {
         // 돌을 둔 위치로부터 탐색하여 승리 유저 체크
+        var startX = x - 5 < 0 ? 0 : x - 5;
+        var startY = y - 5 < 0 ? 0 : y - 5;
+        
+        var endX = x + 5 > _fieldSize ? _fieldSize : x + 5;
+        var endY = y + 5 > _fieldSize ? _fieldSize : y + 5;
+        
+        var cnt = 0;
+        
+        // 가로 세로 확인
+        for (int i = startY; i < endY; i++)
+        {
+            cnt = omokBoardData[i, x] == setColor ? cnt + 1 : 0;
+            if (cnt == 5)
+            {
+                CallWinEvent();
+                return;
+            }
+        }
+        cnt = 0;
+        for (int i = startX; i < endX; i++)
+        {
+            cnt = omokBoardData[y, i] == setColor ? cnt + 1 : 0;
+            if (cnt == 5)
+            {
+                CallWinEvent();
+                return;
+            }
+        }
+        
+        // 대각선 확인
+        // TODO
+    }
+
+    private void CallWinEvent()
+    {
+        
     }
 }
