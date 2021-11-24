@@ -3,15 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FieldManager : Singleton<FieldManager>
 {
-    private PhotonView _photonView;
-    private const int _winStoneCount = 5;
-    private const int _fieldSize = 19;
+    // private PhotonView _photonView;
     private const int _boardPivotX = -8;
     private const int _boardPivotY = 4;
+    private const int _winCount = 5;
+    private const int _fieldSize = 19;
+    private const int fieldLimit = _fieldSize - _winCount;
 
     public int[,] omokBoardData = new int[_fieldSize, _fieldSize];
     public Stone[,] _omokStoneGameObjects = new Stone[_fieldSize, _fieldSize];
@@ -55,45 +58,85 @@ public class FieldManager : Singleton<FieldManager>
         _omokStoneGameObjects[y, x].SetSprite(setColor);
         FieldCheck(x, y, setColor);
     }
-    
-    public void FieldCheck(int x, int y, int setColor)
+
+    private void FieldCheck(int x, int y, int setColor)
     {
         // 돌을 둔 위치로부터 탐색하여 승리 유저 체크
-        var startX = x - 5 < 0 ? 0 : x - 5;
-        var startY = y - 5 < 0 ? 0 : y - 5;
-        
-        var endX = x + 5 > _fieldSize ? _fieldSize : x + 5;
-        var endY = y + 5 > _fieldSize ? _fieldSize : y + 5;
-        
+        var startX = x < _winCount ? 0 : x - _winCount;
+        var endX = x > fieldLimit ? _fieldSize : x + 5;
+        var startY = y < _winCount ? 0 : y - _winCount;
+        var endY = y > fieldLimit ? _fieldSize : y + 5;
         var cnt = 0;
-        
+
         // 가로 세로 확인
-        for (int i = startY; i < endY; i++)
+        Debug.Log("[Win Check] Check Y");
+        for (var i = startY; i < endY; i++)
         {
             cnt = omokBoardData[i, x] == setColor ? cnt + 1 : 0;
-            if (cnt == 5)
-            {
-                CallWinEvent();
-                return;
-            }
-        }
-        cnt = 0;
-        for (int i = startX; i < endX; i++)
-        {
-            cnt = omokBoardData[y, i] == setColor ? cnt + 1 : 0;
-            if (cnt == 5)
-            {
-                CallWinEvent();
-                return;
-            }
+            if (cnt != _winCount) continue;
+            CallWinEvent();
+            return;
         }
         
-        // 대각선 확인
-        // TODO
+        Debug.Log("[Win Check] Check X");
+        for (var i = startX; i < endX; i++)
+        {
+            cnt = omokBoardData[y, i] == setColor ? cnt + 1 : 0;
+            if (cnt != _winCount) continue;
+            CallWinEvent();
+            return;
+        }
+        
+        Debug.Log("[Win Check] Check Button Left -> Top Right");
+        // Button Left -> Top Right
+        // 판정 안됨
+        startX = x - math.min(GetDecreasValue(x), GetIncreasValue(y));
+        startY = y + math.min(GetDecreasValue(x), GetIncreasValue(y));
+        endX = x + math.min(GetIncreasValue(x), GetDecreasValue(y));
+        cnt = 0;
+        Debug.Log($"[Win Check] ({startX}, {startY}) -> ({endX})");
+        for (int i = startX, j = startY - 1; i < endX; i++, j--)
+        {
+            Debug.Log($"[Check] ({i}, {j})");
+            cnt = omokBoardData[j, i] == setColor ? cnt + 1 : 0;
+            if (cnt != 5) continue;
+            CallWinEvent();
+            return;
+        }
+
+        // Top Left -> Bottom Right
+        Debug.Log("[Win Check] Check Top Left -> Bottom Right");
+        startX = x - math.min(GetDecreasValue(x), GetDecreasValue(y));
+        startY = y - math.min(GetDecreasValue(x), GetDecreasValue(y));
+        endX = x + math.min(GetIncreasValue(x), GetIncreasValue(y));
+        cnt = 0;
+        Debug.Log($"[Win Check] ({startX}, {startY}) -> ({endX})");
+        for (int i = startX, j = startY; i < endX; i++, j++)
+        {
+            cnt = omokBoardData[j, i] == setColor ? cnt + 1 : 0;
+            if (cnt != 5) continue;
+            CallWinEvent();
+            return;
+        }
+    }
+
+    private int GetIncreasValue(int position)
+    {
+        return position > fieldLimit ? _fieldSize - position : _winCount;
+    }
+
+    private int GetDecreasValue(int position)
+    {
+        return position < _winCount ? position : _winCount;
     }
 
     private void CallWinEvent()
     {
-        
+        var roomManager = RoomManager.instance;
+        var turnManager = TurnManager.instance;
+        var winnerName = turnManager.IsMyTurn ? roomManager.UserName : roomManager.OtherUserName;
+        Debug.Log($"Winner : {winnerName}");
+        roomManager.DisconnectRoom();
+        SceneManagerEx.SceneChange(SceneTypes.Lobby);
     }
 }
