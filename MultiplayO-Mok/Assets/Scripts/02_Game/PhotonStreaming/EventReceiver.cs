@@ -13,7 +13,8 @@ public enum EventTypes
     AnswerReady,
     ReadyOver,
     GameStart,
-    SetTurn
+    SetTurn,
+    SetPlayerName
 }
 
 public class EventReceiver : PunSingleton<EventReceiver>,IOnEventCallback
@@ -70,9 +71,11 @@ public class EventReceiver : PunSingleton<EventReceiver>,IOnEventCallback
             case EventTypes.SetTurn:
                 SetPlayTurn(data);
                 break;
+            case EventTypes.SetPlayerName:
+                SetPlayerName(data);
+                break;
         }
     }
-
     private void SetStoneEvent(object data)
     {
         // 돌을 두었다는 이벤트 알림
@@ -122,11 +125,31 @@ public class EventReceiver : PunSingleton<EventReceiver>,IOnEventCallback
 
     private void SetPlayTurn(object data)
     {
+        var roomManager = RoomManager.instance;
+        var gameUiManager = GameUiManager.instance;
+        var blackUserNameText = gameUiManager.blackPlayerNameText;
+        var whiteUserNameText = gameUiManager.whitePlayerNameText;
+        var blackAreaText = gameUiManager.blackAreaText;
+        var whiteAreaText = gameUiManager.whiteAreaText;
+        
         var turn = (bool) data;
         TurnManager.instance.IsMyTurn = turn;
         TurnManager.instance.MyColor = (int) (turn ? StoneColorTypes.Black : StoneColorTypes.White);
         TurnManager.instance.OtherColor = (int) (!turn ? StoneColorTypes.Black : StoneColorTypes.White);
+
+        blackUserNameText.text = turn ? roomManager.UserName : roomManager.OtherUserName;
+        whiteUserNameText.text = !turn ? roomManager.UserName : roomManager.OtherUserName;
+        
+        blackAreaText.text = turn ? "흑돌 (선공) - me" : "흑돌 (선공)";
+        whiteAreaText.text = !turn ? "백돌 (후공) - me" : "백돌 (후공)";
         
         Debug.Log($"[Receiver] MyTurn : {turn.ToString()}, Color : {TurnManager.instance.MyColor.ToString()}");
+    }
+    
+    private void SetPlayerName(object data)
+    {
+        var otherName = (string) data;
+        RoomManager.instance.OtherUserName = otherName;
+        GameUiManager.instance.otherNameText.text = otherName;
     }
 }

@@ -45,12 +45,11 @@ public class RoomManager : PunSingleton<RoomManager>
 
     private void InitializedMatchingData(bool isPublicRoom, bool isConnecting, bool isCreateRoom)
     {
-        this.IsPublicRoom = isPublicRoom;
+        IsPublicRoom = isPublicRoom;
         _isConnecting = isConnecting;
-        this.IsCreateRoom = isCreateRoom;
+        IsCreateRoom = isCreateRoom;
     }
-    
-    
+
     public void ShowPublicRoomList()
     {
         Debug.Log("Show Public Room List");
@@ -105,8 +104,7 @@ public class RoomManager : PunSingleton<RoomManager>
         {
             UserName = $"User{Random.Range(_minUserId, _maxUserId).ToString()}";
         }
-
-        PhotonNetwork.LocalPlayer.NickName = $"[{UserName}]";
+        PhotonNetwork.LocalPlayer.NickName = UserName;
         
         if (IsCreateRoom)
         {
@@ -185,10 +183,12 @@ public class RoomManager : PunSingleton<RoomManager>
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         GameUiManager.instance.DisconnectRoomButtonOnClick();
+        GameUiManager.instance.otherNameText.text = "";
+        
         /*
+        IsPlayerLeave = true;
         Debug.Log($"{otherPlayer.NickName} left the room");
         OtherUserName = "User Leave The Room";  
-        IsPlayerLeave = true;
         TurnManager.instance.UserLeaveGame();
         */
     }
@@ -197,6 +197,8 @@ public class RoomManager : PunSingleton<RoomManager>
     {
         IsPlayerLeave = false;
         OtherUserName = newPlayer.NickName;
+        GameUiManager.instance.otherNameText.text = OtherUserName;
+        EventSender.SendRaiseEvent(EventTypes.SetPlayerName, PhotonNetwork.LocalPlayer.NickName, ReceiverGroup.Others);
         Debug.Log($"{OtherUserName} joined the room");
     }
     

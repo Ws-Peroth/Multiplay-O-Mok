@@ -7,6 +7,13 @@ using UnityEngine.UI;
 
 public class GameUiManager : Singleton<GameUiManager>
 {
+    public Text blackAreaText;
+    public Text whiteAreaText;
+    public Text blackPlayerNameText;
+    public Text whitePlayerNameText;
+    public Text playerNameText;
+    public Text otherNameText;
+    
     [SerializeField] private Text readyButtonText;
     [SerializeField] private GameObject readyPopup;
     [SerializeField] private Toggle playerReadyStatus;
@@ -15,6 +22,7 @@ public class GameUiManager : Singleton<GameUiManager>
     private void Start()
     {
         SetReadyButtonText();
+        playerNameText.text = RoomManager.instance.UserName;
     }
 
     public void SetReadyButtonText()

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public enum StoneColorTypes
@@ -57,10 +58,25 @@ public class TurnManager : PunSingleton<TurnManager>
     
     public void SetPlayTurn()
     {
+        var roomManager = RoomManager.instance;
+        var gameUiManager = GameUiManager.instance;
+        
+        var blackUserNameText = gameUiManager.blackPlayerNameText;
+        var whiteUserNameText = gameUiManager.whitePlayerNameText;
+        
+        var blackAreaText = gameUiManager.blackAreaText;
+        var whiteAreaText = gameUiManager.whiteAreaText;
+        
         // 선 후공 선택
         IsMyTurn = Random.Range(0, 2) == 1;
         MyColor = (int) (IsMyTurn ? StoneColorTypes.Black : StoneColorTypes.White);
         OtherColor = (int) (!IsMyTurn ? StoneColorTypes.Black : StoneColorTypes.White);
+
+        blackUserNameText.text = IsMyTurn ? roomManager.UserName : roomManager.OtherUserName;
+        whiteUserNameText.text = !IsMyTurn ? roomManager.UserName : roomManager.OtherUserName;
+        
+        blackAreaText.text = IsMyTurn ? "흑돌 (선공) - me" : "흑돌 (선공)";
+        whiteAreaText.text = !IsMyTurn ? "백돌 (후공) - me" : "백돌 (후공)";
         
         EventSender.SendRaiseEvent(EventTypes.SetTurn, !IsMyTurn, ReceiverGroup.Others);
         Debug.Log($"[Receiver] MyTurn : {IsMyTurn.ToString()}, Color : {MyColor.ToString()}");
