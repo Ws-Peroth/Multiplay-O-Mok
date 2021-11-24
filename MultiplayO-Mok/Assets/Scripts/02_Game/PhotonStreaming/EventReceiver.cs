@@ -82,7 +82,7 @@ public class EventReceiver : PunSingleton<EventReceiver>,IOnEventCallback
         var position = (int[]) data;
         var x = position[0];
         var y = position[1];
-        FieldManager.instance._omokStoneGameObjects[y, x].SetStone(TurnManager.instance.OtherColor);
+        FieldManager.instance.OmokStoneGameObjects[y, x].SetStone(TurnManager.instance.OtherColor);
         Debug.Log($"[Receiver] Receive Position : ({x.ToString()}, {y.ToString()})");
     }
 
@@ -126,23 +126,10 @@ public class EventReceiver : PunSingleton<EventReceiver>,IOnEventCallback
     private void SetPlayTurn(object data)
     {
         var roomManager = RoomManager.instance;
-        var gameUiManager = GameUiManager.instance;
-        var blackUserNameText = gameUiManager.blackPlayerNameText;
-        var whiteUserNameText = gameUiManager.whitePlayerNameText;
-        var blackAreaText = gameUiManager.blackAreaText;
-        var whiteAreaText = gameUiManager.whiteAreaText;
         
         var turn = (bool) data;
         TurnManager.instance.IsMyTurn = turn;
-        TurnManager.instance.MyColor = (int) (turn ? StoneColorTypes.Black : StoneColorTypes.White);
-        TurnManager.instance.OtherColor = (int) (!turn ? StoneColorTypes.Black : StoneColorTypes.White);
-
-        blackUserNameText.text = turn ? roomManager.UserName : roomManager.OtherUserName;
-        whiteUserNameText.text = !turn ? roomManager.UserName : roomManager.OtherUserName;
-        
-        blackAreaText.text = turn ? "흑돌 (선공) - me" : "흑돌 (선공)";
-        whiteAreaText.text = !turn ? "백돌 (후공) - me" : "백돌 (후공)";
-        
+        TurnManager.instance.SetPlayerTurnData();
         Debug.Log($"[Receiver] MyTurn : {turn.ToString()}, Color : {TurnManager.instance.MyColor.ToString()}");
     }
     
@@ -150,6 +137,6 @@ public class EventReceiver : PunSingleton<EventReceiver>,IOnEventCallback
     {
         var otherName = (string) data;
         RoomManager.instance.OtherUserName = otherName;
-        GameUiManager.instance.otherNameText.text = otherName;
+        GameUiManager.instance.OtherNameText = otherName;
     }
 }

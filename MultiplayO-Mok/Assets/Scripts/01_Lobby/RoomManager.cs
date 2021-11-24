@@ -10,23 +10,18 @@ using Random = UnityEngine.Random;
 public class RoomManager : PunSingleton<RoomManager>
 {
     public bool isFinish;
+    
+    private const int MAXRoomId = 1000000;
+    private const int MINRoomId = 100000;
+    private const int MAXUserId = 100000;
+    private const int MINUserId = 10000;
+    private bool _isConnecting;
+    private bool _isCreateRoom;
+    private bool _isPublicRoom;
+    private string _roomName;
+    public bool IsPlayerLeave { get; set; }
     public string UserName { get; set; }
     public string OtherUserName { get; set; }
-    
-    [SerializeField] private string _currentRoom;
-    
-    private const int _maxRoomId = 1000000;
-    private const int _minRoomId = 100000;
-    private const int _maxUserId = 100000;
-    private const int _minUserId = 10000;
-    private bool _isConnecting;
-    [SerializeField] private bool _isShowRoomList;
-
-    public bool IsPlayerLeave { get; set; }
-    public bool IsRoomMaster { get; set; }
-    public bool IsCreateRoom { get; set; }
-    public bool IsPublicRoom { get; set; }
-    public string RoomName { get; set; }
     
     protected override void Awake()
     {
@@ -34,7 +29,7 @@ public class RoomManager : PunSingleton<RoomManager>
         base.Awake();
     }
 
-    private void Update()
+    /*private void Update()
     {
         _currentRoom = PhotonNetwork.IsConnected switch
         {
@@ -42,28 +37,18 @@ public class RoomManager : PunSingleton<RoomManager>
             true => "Connecting",
             _ => "Disconnect"
         };
-    }
+    }*/
 
     private void InitializedMatchingData(bool isPublicRoom, bool isConnecting, bool isCreateRoom)
     {
-        IsPublicRoom = isPublicRoom;
+        _isPublicRoom = isPublicRoom;
         _isConnecting = isConnecting;
-        IsCreateRoom = isCreateRoom;
+        _isCreateRoom = isCreateRoom;
     }
-
-    public void ShowPublicRoomList()
-    {
-        Debug.Log("Show Public Room List");
-        _isShowRoomList = true;
-        // 기능 구현 필요
-        _isShowRoomList = false;
-    }
-
     private string GetRandomRoomCode()
     {
-        return Random.Range(_minRoomId, _maxRoomId).ToString();
+        return Random.Range(MINRoomId, MAXRoomId).ToString();
     }
-
     public void CreatRoom(bool isPublicRoom)
     {
         if(_isConnecting) return;
@@ -85,7 +70,7 @@ public class RoomManager : PunSingleton<RoomManager>
     public void EnterRoomId(string roomId)
     {
         if(_isConnecting) return;
-        RoomName = roomId;
+        _roomName = roomId;
         InitializedMatchingData(false, true, false);
 
         Debug.Log("::Private Mode:: Enter Private Room");
@@ -103,26 +88,25 @@ public class RoomManager : PunSingleton<RoomManager>
         
         if (UserName is null || UserName == String.Empty)
         {
-            UserName = $"User{Random.Range(_minUserId, _maxUserId).ToString()}";
+            UserName = $"User{Random.Range(MINUserId, MAXUserId).ToString()}";
         }
         PhotonNetwork.LocalPlayer.NickName = UserName;
         
-        if (IsCreateRoom)
+        if (_isCreateRoom)
         {
             // 방 생성시 수행할 코드
-            IsRoomMaster = true;
-            RoomName = GetRandomRoomCode();
+            _roomName = GetRandomRoomCode();
 
             var roomOptions = new RoomOptions();
-            roomOptions.IsVisible = IsPublicRoom;
+            roomOptions.IsVisible = _isPublicRoom;
             roomOptions.MaxPlayers = 2;
 
-            PhotonNetwork.CreateRoom(RoomName, roomOptions);
+            PhotonNetwork.CreateRoom(_roomName, roomOptions);
         }
         else
         {
             // 방 입장시 수행할 코드
-            if (IsPublicRoom)
+            if (_isPublicRoom)
             {
                 // 공개방 입장
                 PhotonNetwork.JoinRandomRoom(null, 2);
@@ -130,7 +114,7 @@ public class RoomManager : PunSingleton<RoomManager>
             else
             {
                 // 비공개방 입장
-                PhotonNetwork.JoinRoom(RoomName);
+                PhotonNetwork.JoinRoom(_roomName);
             }
         }
     }
@@ -171,7 +155,6 @@ public class RoomManager : PunSingleton<RoomManager>
     public override void OnDisconnected(DisconnectCause cause)
     {
         // 연결 종료시 callback
-        IsRoomMaster = false;
         InitializedMatchingData(false, false, false);
         DisconnectRoom();
         Debug.Log("[OnDisconnected] : Disconnect Success");
@@ -186,7 +169,7 @@ public class RoomManager : PunSingleton<RoomManager>
     {
         if (isFinish) return;
         GameUiManager.instance.DisconnectRoomButtonOnClick();
-        GameUiManager.instance.otherNameText.text = "";
+        GameUiManager.instance.OtherNameText = "";
         /*
         IsPlayerLeave = true;
         Debug.Log($"{otherPlayer.NickName} left the room");
@@ -199,24 +182,21 @@ public class RoomManager : PunSingleton<RoomManager>
     {
         IsPlayerLeave = false;
         OtherUserName = newPlayer.NickName;
-        GameUiManager.instance.otherNameText.text = OtherUserName;
+        GameUiManager.instance.OtherNameText = OtherUserName;
         EventSender.SendRaiseEvent(EventTypes.SetPlayerName, PhotonNetwork.LocalPlayer.NickName, ReceiverGroup.Others);
         Debug.Log($"{OtherUserName} joined the room");
     }
-    
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        Debug.Log("[Receive Callback] On Room List Update");
-        // 미구현
-        // 방 리스트 변경 시 callback
-        if (_isShowRoomList) return;
-        
-        UpdateRoomList(roomList);
-    }
-
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        IsRoomMaster = true;
         GameUiManager.instance.SetReadyButtonText();
     }
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        // 방 리스트 변경 시 callback
+    }
+    public void ShowPublicRoomList()
+    {
+        // 기능 구현 필요
+    }
+
 }

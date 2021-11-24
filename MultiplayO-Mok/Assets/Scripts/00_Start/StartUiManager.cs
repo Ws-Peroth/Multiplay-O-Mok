@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class StartUiManager : MonoBehaviour
 {
     [SerializeField] private Text startText;
-
     [SerializeField] private float fadeTime = 1f;
     
     // Start is called before the first frame update

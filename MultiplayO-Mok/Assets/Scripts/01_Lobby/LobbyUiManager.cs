@@ -12,7 +12,6 @@ public class LobbyUiManager : MonoBehaviour
     
     public void UserNameInputFieldOnEndEdit(Text name)
     {
-        Debug.Log($"name = {name.text}");
         RoomManager.instance.UserName = name.text;
     }
     
