@@ -10,19 +10,14 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     private static volatile T _instance;
     private static object _syncRoot = new System.Object();
 
-    public static T instance {
+    public static T Instance {
         get {
             Initialize();
             return _instance;
         }
     }
 
-    public static bool isInitialized {
-        get {
-            return _instance != null;
-        }
-    }
-
+    public static bool IsInitialized => _instance != null;
     public static void Initialize()
     {
         if (_instance != null)
@@ -31,7 +26,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
         }
         lock (_syncRoot)
         {
-            _instance = GameObject.FindObjectOfType<T>();
+            _instance = FindObjectOfType<T>();
 
             if(_instance == null)
             {
