@@ -74,7 +74,7 @@ public class FieldManager : Singleton<FieldManager>
         {
             cnt = omokBoardData[i, x] == setColor ? cnt + 1 : 0;
             if (cnt != _winCount) continue;
-            CallWinEvent();
+            GameUiManager.instance.CallWinEvent();
             return;
         }
         
@@ -83,7 +83,7 @@ public class FieldManager : Singleton<FieldManager>
         {
             cnt = omokBoardData[y, i] == setColor ? cnt + 1 : 0;
             if (cnt != _winCount) continue;
-            CallWinEvent();
+            GameUiManager.instance.CallWinEvent();
             return;
         }
         
@@ -92,15 +92,22 @@ public class FieldManager : Singleton<FieldManager>
         // 판정 안됨
         startX = x - math.min(GetDecreasValue(x), GetIncreasValue(y));
         startY = y + math.min(GetDecreasValue(x), GetIncreasValue(y));
+        if (startY >= _fieldSize)
+        {
+            var deltaValue = _fieldSize - startY + 1;
+            startY -= deltaValue;
+            startX += deltaValue;
+        }
+
         endX = x + math.min(GetIncreasValue(x), GetDecreasValue(y));
         cnt = 0;
         Debug.Log($"[Win Check] ({startX}, {startY}) -> ({endX})");
-        for (int i = startX, j = startY - 1; i < endX; i++, j--)
+        for (int i = startX, j = startY; i < endX; i++, j--)
         {
             Debug.Log($"[Check] ({i}, {j})");
             cnt = omokBoardData[j, i] == setColor ? cnt + 1 : 0;
             if (cnt != 5) continue;
-            CallWinEvent();
+            GameUiManager.instance.CallWinEvent();
             return;
         }
 
@@ -115,7 +122,7 @@ public class FieldManager : Singleton<FieldManager>
         {
             cnt = omokBoardData[j, i] == setColor ? cnt + 1 : 0;
             if (cnt != 5) continue;
-            CallWinEvent();
+            GameUiManager.instance.CallWinEvent();
             return;
         }
     }
@@ -128,15 +135,5 @@ public class FieldManager : Singleton<FieldManager>
     private int GetDecreasValue(int position)
     {
         return position < _winCount ? position : _winCount;
-    }
-
-    private void CallWinEvent()
-    {
-        var roomManager = RoomManager.instance;
-        var turnManager = TurnManager.instance;
-        var winnerName = turnManager.IsMyTurn ? roomManager.UserName : roomManager.OtherUserName;
-        Debug.Log($"Winner : {winnerName}");
-        roomManager.DisconnectRoom();
-        SceneManagerEx.SceneChange(SceneTypes.Lobby);
     }
 }

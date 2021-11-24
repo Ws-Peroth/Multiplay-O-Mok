@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 
 public class RoomManager : PunSingleton<RoomManager>
 {
+    public bool isFinish;
     public string UserName { get; set; }
     public string OtherUserName { get; set; }
     
@@ -162,6 +163,7 @@ public class RoomManager : PunSingleton<RoomManager>
     {
         // 방 입장 성공시 callback
         _isConnecting = false;
+        isFinish = false;
         Debug.Log("[OnJoinedRoom] : Join Success");
         SceneManagerEx.SceneChange(SceneTypes.Game);
     }
@@ -182,9 +184,9 @@ public class RoomManager : PunSingleton<RoomManager>
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        if (isFinish) return;
         GameUiManager.instance.DisconnectRoomButtonOnClick();
         GameUiManager.instance.otherNameText.text = "";
-        
         /*
         IsPlayerLeave = true;
         Debug.Log($"{otherPlayer.NickName} left the room");

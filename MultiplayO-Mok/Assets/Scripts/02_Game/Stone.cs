@@ -46,8 +46,8 @@ public class Stone : MonoBehaviour
     public void SetStone(int setColor)
     {
         Debug.Log($"Call Set Stone : color {setColor.ToString()}");
-        TurnManager.instance.TurnChange();
         FieldManager.instance.SetStone(PositionX, PositionY, setColor);
+        TurnManager.instance.TurnChange();
     }
 
     private void OnMouseEnter()

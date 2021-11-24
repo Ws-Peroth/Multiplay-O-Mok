@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class GameUiManager : Singleton<GameUiManager>
 {
+    public Text resultText;
+    public Text winnerNameText;
     public Text blackAreaText;
     public Text whiteAreaText;
     public Text blackPlayerNameText;
@@ -16,6 +18,7 @@ public class GameUiManager : Singleton<GameUiManager>
     
     [SerializeField] private Text readyButtonText;
     [SerializeField] private GameObject readyPopup;
+    [SerializeField] private GameObject resultPopup;
     [SerializeField] private Toggle playerReadyStatus;
     [SerializeField] private Toggle otherPlayerReadyStatus;
 
@@ -39,11 +42,6 @@ public class GameUiManager : Singleton<GameUiManager>
     {
         otherPlayerReadyStatus.isOn = status;
     }
-    
-    public void ReadyGame()
-    {
-        readyPopup.SetActive(true);
-    }
 
     public void ReadyButonOnClick()
     {
@@ -61,5 +59,16 @@ public class GameUiManager : Singleton<GameUiManager>
     public void StartGame()
     {
         readyPopup.SetActive(false);
+    }
+    
+    public void CallWinEvent()
+    {
+        resultPopup.SetActive(true);
+        var roomManager = RoomManager.instance;
+        var turnManager = TurnManager.instance;
+        var winnerName = turnManager.IsMyTurn ? roomManager.UserName : roomManager.OtherUserName;
+        roomManager.isFinish = true;
+        winnerNameText.text = $"winner : {winnerName}";
+        resultText.text = turnManager.IsMyTurn ? "Win!!!" : "Lose...";
     }
 }
