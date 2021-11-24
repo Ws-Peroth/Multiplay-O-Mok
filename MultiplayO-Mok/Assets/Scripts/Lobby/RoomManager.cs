@@ -11,8 +11,6 @@ namespace Lobby
 {
     public class RoomManager : PunSingleton<RoomManager>
     {
-        public bool isFinish;
-
         private const int MAXRoomId = 1000000;
         private const int MINRoomId = 100000;
         private const int MAXUserId = 100000;
@@ -21,6 +19,8 @@ namespace Lobby
         private bool _isCreateRoom;
         private bool _isPublicRoom;
         private string _roomName;
+        public string ConnectStatus { get; set; } = "Room Connecting";
+        public bool IsFinish { get; set; }
         public bool IsPlayerLeave { get; set; }
         public string UserName { get; set; }
         public string OtherUserName { get; set; }
@@ -30,16 +30,6 @@ namespace Lobby
             dontDestroyOnLoad = true;
             base.Awake();
         }
-
-        /*private void Update()
-        {
-            _currentRoom = PhotonNetwork.IsConnected switch
-            {
-                true when PhotonNetwork.CurrentRoom != null => $"ID : {PhotonNetwork.CurrentRoom.Name}",
-                true => "Connecting",
-                _ => "Disconnect"
-            };
-        }*/
 
         private void InitializedMatchingData(bool isPublicRoom, bool isConnecting, bool isCreateRoom)
         {
@@ -85,11 +75,12 @@ namespace Lobby
         {
             Debug.Log("[Disconnect Room]");
             PhotonNetwork.Disconnect();
+            ConnectStatus = "Room Connecting";
         }
 
         public override void OnConnectedToMaster()
         {
-
+            ConnectStatus = "Room Connecting";
             if (UserName is null || UserName == String.Empty)
             {
                 UserName = $"User{Random.Range(MINUserId, MAXUserId).ToString()}";
@@ -130,7 +121,8 @@ namespace Lobby
         {
             // 방 생성 실패시 callback
             _isConnecting = false;
-            DisconnectRoom();
+            // DisconnectRoom();
+            ConnectStatus = $"Room Creat Failed : {message} ({returnCode.ToString()})";
             Debug.Log($"{returnCode.ToString()} : {message}");
         }
 
@@ -138,7 +130,8 @@ namespace Lobby
         {
             // 랜덤 방 입장 실패시 callback
             _isConnecting = false;
-            DisconnectRoom();
+            // DisconnectRoom();
+            ConnectStatus = $"Room Join Failed : {message} ({returnCode.ToString()})";
             Debug.Log($"{returnCode.ToString()} : {message}");
         }
 
@@ -146,7 +139,8 @@ namespace Lobby
         {
             // 방 입장 실패시 callback
             _isConnecting = false;
-            DisconnectRoom();
+            // DisconnectRoom();
+            ConnectStatus = $"Room Join Failed : {message} ({returnCode.ToString()})";
             Debug.Log($"{returnCode.ToString()} : {message}");
         }
 
@@ -154,7 +148,7 @@ namespace Lobby
         {
             // 방 입장 성공시 callback
             _isConnecting = false;
-            isFinish = false;
+            IsFinish = false;
             Debug.Log("[OnJoinedRoom] : Join Success");
             SceneManagerEx.SceneChange(SceneTypes.Game);
         }
@@ -169,7 +163,7 @@ namespace Lobby
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            if (isFinish) return;
+            if (IsFinish) return;
             GameUiManager.Instance.DisconnectRoomButtonOnClick();
             GameUiManager.Instance.OtherNameText = "";
             /*

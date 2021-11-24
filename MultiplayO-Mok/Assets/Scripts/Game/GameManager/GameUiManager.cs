@@ -77,7 +77,7 @@ namespace Game.GameManager
             var roomManager = RoomManager.Instance;
             var turnManager = TurnManager.Instance;
             var winnerName = turnManager.IsMyTurn ? roomManager.UserName : roomManager.OtherUserName;
-            roomManager.isFinish = true;
+            roomManager.IsFinish = true;
             winnerNameText.text = $"winner : {winnerName}";
             resultText.text = turnManager.IsMyTurn ? "Win!!!" : "Lose...";
         }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,10 +6,18 @@ namespace Lobby
 {
     public class LobbyUiManager : MonoBehaviour
     {
+        [SerializeField] private GameObject connectPopup;
+        [SerializeField] private Text connectStatusText;
+        
         private bool _isPublic = true;
         private string _roomId = "_";
         [SerializeField] private GameObject creatRoomPopup;
         [SerializeField] private GameObject joinRoomIdPopup;
+
+        private void Update()
+        {
+            connectStatusText.text = RoomManager.Instance.ConnectStatus;
+        }
 
         public void UserNameInputFieldOnEndEdit(Text userName)
         {
@@ -27,6 +36,7 @@ namespace Lobby
 
         public void JoinRandomRoomButtonOnClick()
         {
+            RoomConnecting();
             RoomManager.Instance.EnterPublicRoom();
         }
 
@@ -37,6 +47,7 @@ namespace Lobby
 
         public void JoinPrivateRoomButtonDown()
         {
+            RoomConnecting();
             RoomManager.Instance.EnterRoomId(_roomId);
         }
 
@@ -47,7 +58,24 @@ namespace Lobby
 
         public void DoCreatRoomButtonOnClick()
         {
+            RoomConnecting();
             RoomManager.Instance.CreatRoom(_isPublic);
+        }
+
+        private void RoomConnecting()
+        {
+            connectPopup.SetActive(true);
+        }
+
+        private void RoomConnectEnd()
+        {
+            connectPopup.SetActive(false);
+        }
+
+        public void DisconnectButtonOnClick()
+        {
+            RoomConnectEnd();
+            RoomManager.Instance.DisconnectRoom();
         }
     }
 }
