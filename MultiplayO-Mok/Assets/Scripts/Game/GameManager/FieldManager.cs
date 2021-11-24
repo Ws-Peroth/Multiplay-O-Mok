@@ -69,7 +69,7 @@ namespace Game.GameManager
             {
                 cnt = _oMokBoardData[i, x] == setColor ? cnt + 1 : 0;
                 if (cnt != WinCount) continue;
-                GameUiManager.Instance.CallWinEvent();
+                GameUiManager.Instance.CallWinEvent("오목을 먼저 완성하였습니다.");
                 return;
             }
 
@@ -79,7 +79,7 @@ namespace Game.GameManager
             {
                 cnt = _oMokBoardData[y, i] == setColor ? cnt + 1 : 0;
                 if (cnt != WinCount) continue;
-                GameUiManager.Instance.CallWinEvent();
+                GameUiManager.Instance.CallWinEvent("오목을 먼저 완성하였습니다.");
                 return;
             }
 
@@ -102,7 +102,7 @@ namespace Game.GameManager
                 Debug.Log($"[Check] ({i}, {j})");
                 cnt = _oMokBoardData[j, i] == setColor ? cnt + 1 : 0;
                 if (cnt != 5) continue;
-                GameUiManager.Instance.CallWinEvent();
+                GameUiManager.Instance.CallWinEvent("오목을 먼저 완성하였습니다.");
                 return;
             }
 
@@ -117,7 +117,7 @@ namespace Game.GameManager
             {
                 cnt = _oMokBoardData[j, i] == setColor ? cnt + 1 : 0;
                 if (cnt != 5) continue;
-                GameUiManager.Instance.CallWinEvent();
+                GameUiManager.Instance.CallWinEvent("오목을 먼저 완성하였습니다.");
                 return;
             }
         }

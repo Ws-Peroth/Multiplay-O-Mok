@@ -163,6 +163,12 @@ namespace Lobby
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
+            if (GameUiManager.Instance.IsStart)
+            {
+                TurnManager.Instance.IsMyTurn = true;
+                GameUiManager.Instance.CallWinEvent("상대가 게임을 나갔습니다.");
+                return;
+            }
             if (IsFinish) return;
             GameUiManager.Instance.DisconnectRoomButtonOnClick();
             GameUiManager.Instance.OtherNameText = "";

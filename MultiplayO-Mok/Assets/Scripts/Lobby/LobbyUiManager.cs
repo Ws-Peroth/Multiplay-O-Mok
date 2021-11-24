@@ -8,7 +8,6 @@ namespace Lobby
     {
         [SerializeField] private GameObject connectPopup;
         [SerializeField] private Text connectStatusText;
-        
         private bool _isPublic = true;
         private string _roomId = "_";
         [SerializeField] private GameObject creatRoomPopup;

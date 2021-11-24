@@ -1,3 +1,4 @@
+using System;
 using Game.PhotonStreaming;
 using Lobby;
 using Photon.Pun;
@@ -11,6 +12,7 @@ namespace Game.GameManager
     {
         #region 멤버 변수 & 프로퍼티
 
+        [SerializeField] private Text winMessageText;
         [SerializeField] private Text resultText;
         [SerializeField] private Text winnerNameText;
         [SerializeField] private Text blackAreaText;
@@ -24,6 +26,8 @@ namespace Game.GameManager
         [SerializeField] private Toggle otherPlayerReadyStatus;
         [SerializeField] private GameObject readyPopup;
         [SerializeField] private GameObject resultPopup;
+
+        public bool IsStart { get; set; }
 
         public string OtherNameText
         {
@@ -69,10 +73,12 @@ namespace Game.GameManager
         public void StartGame()
         {
             readyPopup.SetActive(false);
+            IsStart = true;
         }
 
-        public void CallWinEvent()
+        public void CallWinEvent(string winMessage)
         {
+            IsStart = false;
             resultPopup.SetActive(true);
             var roomManager = RoomManager.Instance;
             var turnManager = TurnManager.Instance;
@@ -80,6 +86,7 @@ namespace Game.GameManager
             roomManager.IsFinish = true;
             winnerNameText.text = $"winner : {winnerName}";
             resultText.text = turnManager.IsMyTurn ? "Win!!!" : "Lose...";
+            winMessageText.text = winMessage;
         }
 
         public void SetAreaText(bool isMyTurn)
