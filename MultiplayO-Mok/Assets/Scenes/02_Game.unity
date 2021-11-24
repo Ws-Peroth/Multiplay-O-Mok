@@ -598,8 +598,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 368999268}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.8643001, y: -0.037000008, z: 10.158828}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1081524961}
@@ -622,15 +622,15 @@ MonoBehaviour:
   winnerNameText: {fileID: 995216922}
   blackAreaText: {fileID: 1711671212}
   whiteAreaText: {fileID: 357887397}
-  blackPlayerNameText: {fileID: 742907322}
-  whitePlayerNameText: {fileID: 129799811}
   playerNameText: {fileID: 1979307885}
   otherNameText: {fileID: 698405256}
+  blackPlayerNameText: {fileID: 742907322}
+  whitePlayerNameText: {fileID: 129799811}
   readyButtonText: {fileID: 1834777650}
-  readyPopup: {fileID: 1888789265}
-  resultPopup: {fileID: 1536216520}
   playerReadyStatus: {fileID: 983464684}
   otherPlayerReadyStatus: {fileID: 223819452}
+  readyPopup: {fileID: 1888789265}
+  resultPopup: {fileID: 1536216520}
 --- !u!1 &396261067
 GameObject:
   m_ObjectHideFlags: 0
@@ -7464,7 +7464,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 368999270}
         m_TargetAssemblyTypeName: GameUiManager, Assembly-CSharp
-        m_MethodName: ReadyButonOnClick
+        m_MethodName: ReadyButtonOnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
