@@ -18,7 +18,7 @@ namespace Lobby
         private bool _isConnecting;
         private bool _isCreateRoom;
         private bool _isPublicRoom;
-        private string _roomName;
+        public string RoomName { get; set; }
         public string ConnectStatus { get; set; } = "Room Connecting";
         public bool IsFinish { get; set; }
         public bool IsPlayerLeave { get; set; }
@@ -64,7 +64,7 @@ namespace Lobby
         public void EnterRoomId(string roomId)
         {
             if (_isConnecting) return;
-            _roomName = roomId;
+            RoomName = roomId;
             InitializedMatchingData(false, true, false);
 
             Debug.Log("::Private Mode:: Enter Private Room");
@@ -91,7 +91,7 @@ namespace Lobby
             if (_isCreateRoom)
             {
                 // 방 생성시 수행할 코드
-                _roomName = GetRandomRoomCode();
+                RoomName = GetRandomRoomCode();
 
                 var roomOptions = new RoomOptions
                 {
@@ -99,7 +99,7 @@ namespace Lobby
                     MaxPlayers = 2
                 };
 
-                PhotonNetwork.CreateRoom(_roomName, roomOptions);
+                PhotonNetwork.CreateRoom(RoomName, roomOptions);
             }
             else
             {
@@ -112,7 +112,7 @@ namespace Lobby
                 else
                 {
                     // 비공개방 입장
-                    PhotonNetwork.JoinRoom(_roomName);
+                    PhotonNetwork.JoinRoom(RoomName);
                 }
             }
         }

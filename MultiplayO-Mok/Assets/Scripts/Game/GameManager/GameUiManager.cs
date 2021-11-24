@@ -11,6 +11,7 @@ namespace Game.GameManager
     public class GameUiManager : Singleton<GameUiManager>
     {
         #region 멤버 변수 & 프로퍼티
+        [SerializeField] private Text roomIdText;
         [SerializeField] private Text winMessageText;
         [SerializeField] private Text resultText;
         [SerializeField] private Text winnerNameText;
@@ -38,6 +39,7 @@ namespace Game.GameManager
         private void Start()
         {
             SetReadyButtonText();
+            roomIdText.text = $"Room ID : {RoomManager.Instance.RoomName}";
             playerNameText.text = RoomManager.Instance.UserName;
         }
 
