@@ -11,7 +11,6 @@ namespace Game.GameManager
     public class GameUiManager : Singleton<GameUiManager>
     {
         #region 멤버 변수 & 프로퍼티
-
         [SerializeField] private Text winMessageText;
         [SerializeField] private Text resultText;
         [SerializeField] private Text winnerNameText;
@@ -87,6 +86,7 @@ namespace Game.GameManager
             winnerNameText.text = $"winner : {winnerName}";
             resultText.text = turnManager.IsMyTurn ? "Win!!!" : "Lose...";
             winMessageText.text = winMessage;
+            TurnManager.Instance.PlayerReady = false;
         }
 
         public void SetAreaText(bool isMyTurn)

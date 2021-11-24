@@ -170,14 +170,7 @@ namespace Lobby
                 return;
             }
             if (IsFinish) return;
-            GameUiManager.Instance.DisconnectRoomButtonOnClick();
             GameUiManager.Instance.OtherNameText = "";
-            /*
-            IsPlayerLeave = true;
-            Debug.Log($"{otherPlayer.NickName} left the room");
-            OtherUserName = "User Leave The Room";  
-            TurnManager.instance.UserLeaveGame();
-            */
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)

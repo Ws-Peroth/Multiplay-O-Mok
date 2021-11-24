@@ -1,19 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using Lobby;
+using Game.GameManager;
 using UnityEngine;
 
-public class ExitPopup : MonoBehaviour
+namespace Lobby
 {
-    [SerializeField] private GameObject settingCanvas;
-
-    public void ExitButtonOnClick()
+    public class ExitPopup : MonoBehaviour
     {
-        Application.Quit();
-    }
+        [SerializeField] private GameObject settingCanvas;
 
-    public void GiveUpButtonOnClick()
-    {
-        RoomManager.Instance.DisconnectRoom();
+        public void ExitButtonOnClick()
+        {
+            Application.Quit();
+        }
+
+        public void GiveUpButtonOnClick()
+        {
+            settingCanvas.SetActive(false);
+            TurnManager.Instance.IsMyTurn = false;
+            GameUiManager.Instance.CallWinEvent("항복하였습니다.");
+            RoomManager.Instance.DisconnectRoom();
+        }
     }
 }
