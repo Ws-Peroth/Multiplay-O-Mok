@@ -1786,7 +1786,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &903548389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1950,7 +1950,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 965318552}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1368367924}
+        m_TargetAssemblyTypeName: Lobby.LobbyUiManager, Assembly-CSharp
+        m_MethodName: DisconnectButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &965318552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2565,8 +2577,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a3606e4cce92446ba66553786fce38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CreatRoomPopup: {fileID: 1813228746}
-  JoinRoomIdPopup: {fileID: 1779613750}
+  connectPopup: {fileID: 1784081669}
+  connectStatusText: {fileID: 890525059}
+  creatRoomPopup: {fileID: 1813228746}
+  joinRoomIdPopup: {fileID: 1779613750}
 --- !u!4 &1368367925
 Transform:
   m_ObjectHideFlags: 0
@@ -3484,7 +3498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1784081670
 RectTransform:
   m_ObjectHideFlags: 0
