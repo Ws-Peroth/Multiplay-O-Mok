@@ -4,10 +4,10 @@
 Assets/Plugins
 Assets/Photon
 ProjectSettings/
-Logs/
 *.meta
-*.log
 
+*.log
+Logs/
 # Jetbrain Rider Cache
 .idea/
 Assets/Plugins/Editor/JetBrains*
