@@ -1,7 +1,9 @@
+using System;
 using Game.PhotonStreaming;
 using Lobby;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.Playables;
 using Random = UnityEngine.Random;
 
 namespace Game.GameManager
@@ -33,7 +35,6 @@ namespace Game.GameManager
         }
 
         public bool IsMyTurn { get; set; }
-
         public int MyColor { get; set; }
         public int OtherColor { get; set; }
 
@@ -58,6 +59,7 @@ namespace Game.GameManager
             // 선 후공 색 선택
             MyColor = (int) (IsMyTurn ? StoneColorTypes.Black : StoneColorTypes.White);
             OtherColor = (int) (!IsMyTurn ? StoneColorTypes.Black : StoneColorTypes.White);
+            GameUiManager.Instance.SetPlayerTurnMark();
             // 플레이어 이름 설정
             GameUiManager.Instance.SetAreaText(IsMyTurn);
             GameUiManager.Instance.SetPlayerText(IsMyTurn, roomManager.UserName, roomManager.OtherUserName);
@@ -66,6 +68,7 @@ namespace Game.GameManager
         public void TurnChange()
         {
             IsMyTurn = !IsMyTurn;
+            GameUiManager.Instance.TurnOnStatusReverse();
             Debug.Log($"Change Turn : {IsMyTurn.ToString()}");
         }
     }

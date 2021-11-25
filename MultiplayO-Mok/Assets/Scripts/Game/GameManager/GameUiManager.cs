@@ -3,6 +3,7 @@ using Game.PhotonStreaming;
 using Lobby;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,9 @@ namespace Game.GameManager
     public class GameUiManager : Singleton<GameUiManager>
     {
         #region 멤버 변수 & 프로퍼티
+
+        [SerializeField] private GameObject whiteTurnImage;
+        [SerializeField] private GameObject blackTurnImage;
         [SerializeField] private Text roomIdText;
         [SerializeField] private Text winMessageText;
         [SerializeField] private Text resultText;
@@ -101,6 +105,18 @@ namespace Game.GameManager
         {
             blackPlayerNameText.text = isMyTurn ? userName : otherName;
             whitePlayerNameText.text = !isMyTurn ? userName : otherName;
+        }
+
+        public void SetPlayerTurnMark()
+        {
+            whiteTurnImage.SetActive(false);
+            blackTurnImage.SetActive(true);
+        }
+
+        public void TurnOnStatusReverse()
+        {
+            whiteTurnImage.SetActive(!whiteTurnImage.activeSelf);
+            blackTurnImage.SetActive(!blackTurnImage.activeSelf);
         }
     }
 }
