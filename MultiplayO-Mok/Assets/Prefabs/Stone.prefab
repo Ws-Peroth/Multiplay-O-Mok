@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3407755650953767486}
   - component: {fileID: 2605626246363081312}
   - component: {fileID: 2605626246363081311}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 190a9d33b80044c4d85195f6c14b0004, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a28883864b209e94b9edf96fda667459, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -142,11 +142,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2605626246363081315}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54fc2fc9b9fce93449615a6e100398be, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b25ce3e9a977d6489a7f39b82d152de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   placeSprites:
-  - {fileID: 21300000, guid: 190a9d33b80044c4d85195f6c14b0004, type: 3}
-  - {fileID: -2216705347961940917, guid: 2f7bd427f67c41a419a82a26eca55b12, type: 3}
-  - {fileID: -1882889118733207223, guid: 2f7bd427f67c41a419a82a26eca55b12, type: 3}
+  - {fileID: 21300000, guid: a28883864b209e94b9edf96fda667459, type: 3}
+  - {fileID: -2216705347961940917, guid: 9295edddc6d8c51479b15cc5d47de3e1, type: 3}
+  - {fileID: -1882889118733207223, guid: 9295edddc6d8c51479b15cc5d47de3e1, type: 3}
   spriteImage: {fileID: 3407755650953767486}

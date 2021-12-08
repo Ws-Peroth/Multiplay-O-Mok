@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: O-MokTiles_1
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -3173615645458158841, guid: 2f7bd427f67c41a419a82a26eca55b12, type: 3}
+  m_Sprite: {fileID: -3173615645458158841, guid: 9295edddc6d8c51479b15cc5d47de3e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
