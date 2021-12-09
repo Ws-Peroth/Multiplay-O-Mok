@@ -5,16 +5,20 @@ namespace Lobby
 {
     public class ExitPopup : MonoBehaviour
     {
-        [SerializeField] private GameObject settingCanvas;
+        [SerializeField] private GameObject settingPopup;
 
         public void ExitButtonOnClick()
         {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
             Application.Quit();
+        #endif
         }
 
         public void GiveUpButtonOnClick()
         {
-            settingCanvas.SetActive(false);
+            settingPopup.SetActive(false);
             TurnManager.Instance.IsMyTurn = false;
             GameUiManager.Instance.CallWinEvent("항복하였습니다.");
             RoomManager.Instance.DisconnectRoom();
