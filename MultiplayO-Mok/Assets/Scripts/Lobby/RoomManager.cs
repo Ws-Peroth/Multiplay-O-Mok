@@ -22,7 +22,7 @@ namespace Lobby
         public string ConnectStatus { get; set; } = "Room Connecting";
         public bool IsFinish { get; set; }
         public bool IsPlayerLeave { get; set; }
-        public string UserName { get; set; }
+        public string UserName { get; set; } = "";
         public string OtherUserName { get; set; }
 
         protected override void Awake()

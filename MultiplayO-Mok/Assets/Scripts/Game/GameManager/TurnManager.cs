@@ -28,15 +28,14 @@ namespace Game.GameManager
                 GameUiManager.Instance.SetPlayerReadyStatus(value);
             }
         }
-
+        public bool IsMyTurn { get; set; }
+        public int MyColor { get; set; }
+        public int OtherColor { get; set; }
+        
         public static void OtherPlayerReady(bool status)
         {
             GameUiManager.Instance.SetOtherPlayerReadyStatus(status);
         }
-
-        public bool IsMyTurn { get; set; }
-        public int MyColor { get; set; }
-        public int OtherColor { get; set; }
 
         public void GameStart()
         {
