@@ -835,7 +835,7 @@ MonoBehaviour:
   blackTurnImage: {fileID: 717027520}
   roomIdText: {fileID: 1920988291}
   winMessageText: {fileID: 1631416099}
-  resultText: {fileID: 1079403642}
+  resultText: {fileID: 638576928}
   winnerNameText: {fileID: 995216922}
   blackAreaText: {fileID: 1711671212}
   whiteAreaText: {fileID: 357887397}
@@ -6922,7 +6922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1276021461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7079,7 +7079,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1352990625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7092,7 +7092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4369d8047e2e3994b9e64be10d91489c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingCanvas: {fileID: 1352990624}
+  settingPopup: {fileID: 1276021460}
 --- !u!114 &1352990626
 MonoBehaviour:
   m_ObjectHideFlags: 0

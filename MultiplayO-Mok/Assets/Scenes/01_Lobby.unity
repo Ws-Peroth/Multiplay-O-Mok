@@ -628,10 +628,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 379384069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3cecb9672df9f34a94f86a0b68a4d9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 4369d8047e2e3994b9e64be10d91489c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingCanvas: {fileID: 658356764}
+  settingPopup: {fileID: 0}
 --- !u!1 &406163057
 GameObject:
   m_ObjectHideFlags: 0
@@ -3274,6 +3274,7 @@ MonoBehaviour:
   connectStatusText: {fileID: 890525059}
   creatRoomPopup: {fileID: 1813228746}
   joinRoomIdPopup: {fileID: 1779613750}
+  inputUserNamePlaceholderText: {fileID: 723979523}
 --- !u!4 &1368367925
 Transform:
   m_ObjectHideFlags: 0
