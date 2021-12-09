@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Game.GameManager;
 using Game.PhotonStreaming;
@@ -17,7 +18,7 @@ namespace Game
     public class Stone : MonoBehaviour
     {
         [SerializeField] private List<Sprite> placeSprites = new List<Sprite>();
-        private readonly Color _alphaWhite = new Color(1, 1, 1, 0.5f);
+        private readonly Color _alphaWhite = new Color(1, 1, 1, 0.2f);
         private readonly Color _defaultColor = Color.white;
         public Image spriteImage;
         public int Status { get; set; }
@@ -50,19 +51,19 @@ namespace Game
             FieldManager.Instance.SetStone(PositionX, PositionY, setColor);
             TurnManager.Instance.TurnChange();
         }
-
+        
         private void OnMouseEnter()
         {
-            // 작동 안함
+            if (!TurnManager.Instance.IsMyTurn) return;
             if (Status != 0) return;
             Debug.Log("[Stone] OnMouseEnter");
-            spriteImage.color = _alphaWhite;
             SetSprite(TurnManager.Instance.MyColor);
+            spriteImage.color = _alphaWhite;
         }
 
         private void OnMouseExit()
         {
-            // 작동 안함
+            if (!TurnManager.Instance.IsMyTurn) return;
             if (Status != 0) return;
             Debug.Log("[Stone] OnMouseExit");
             spriteImage.color = _defaultColor;
