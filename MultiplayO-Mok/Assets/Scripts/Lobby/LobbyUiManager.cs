@@ -12,6 +12,12 @@ namespace Lobby
         private string _roomId = "_";
         [SerializeField] private GameObject creatRoomPopup;
         [SerializeField] private GameObject joinRoomIdPopup;
+        [SerializeField] private Text inputUserNamePlaceholderText;
+        private void Start()
+        {
+            var userName = RoomManager.Instance.UserName;
+            inputUserNamePlaceholderText.text = userName == string.Empty ? "Input User Name..." : userName;
+        }
 
         private void Update()
         {
