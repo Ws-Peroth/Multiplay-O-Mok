@@ -5,8 +5,8 @@ namespace Game.GameManager
 {
     public class FieldManager : Singleton<FieldManager>
     {
-        private const int BoardPivotX = -8;
-        private const int BoardPivotY = 4;
+        public const int BoardPivotX = -8;
+        public const int BoardPivotY = 4;
         private const int WinCount = 5;
         private const int FieldSize = 19;
         private const int FieldLimit = FieldSize - WinCount;
@@ -53,6 +53,7 @@ namespace Game.GameManager
             OMokStoneGameObjects[y, x].Status = setColor;
             OMokStoneGameObjects[y, x].SetSprite(setColor);
             OMokCheck(x, y, setColor);
+            
         }
 
         private void OMokCheck(int x, int y, int setColor)
@@ -64,7 +65,6 @@ namespace Game.GameManager
 
             var cnt = 0;
             // 세로 확인
-            Debug.Log("[Win Check] Check Y");
             for (var i = startY; i < endY; i++)
             {
                 cnt = _oMokBoardData[i, x] == setColor ? cnt + 1 : 0;
@@ -74,7 +74,6 @@ namespace Game.GameManager
             }
 
             // 가로 확인
-            Debug.Log("[Win Check] Check X");
             for (var i = startX; i < endX; i++)
             {
                 cnt = _oMokBoardData[y, i] == setColor ? cnt + 1 : 0;
@@ -83,8 +82,6 @@ namespace Game.GameManager
                 return;
             }
 
-            Debug.Log("[Win Check] Check Button Left -> Top Right");
-            // Button Left -> Top Right
             startX = x - math.min(GetDecreaseValue(x), GetIncreaseValue(y));
             startY = y + math.min(GetDecreaseValue(x), GetIncreaseValue(y));
             if (startY >= FieldSize) // y가 19의 값을 가졌을 경우
@@ -96,23 +93,18 @@ namespace Game.GameManager
 
             endX = x + math.min(GetIncreaseValue(x), GetDecreaseValue(y));
             cnt = 0;
-            Debug.Log($"[Win Check] ({startX}, {startY}) -> ({endX})");
             for (int i = startX, j = startY; i < endX; i++, j--)
             {
-                Debug.Log($"[Check] ({i}, {j})");
                 cnt = _oMokBoardData[j, i] == setColor ? cnt + 1 : 0;
                 if (cnt != 5) continue;
                 GameUiManager.Instance.CallWinEvent("오목을 먼저 완성하였습니다.");
                 return;
             }
 
-            // Top Left -> Bottom Right
-            Debug.Log("[Win Check] Check Top Left -> Bottom Right");
             startX = x - math.min(GetDecreaseValue(x), GetDecreaseValue(y));
             startY = y - math.min(GetDecreaseValue(x), GetDecreaseValue(y));
             endX = x + math.min(GetIncreaseValue(x), GetIncreaseValue(y));
             cnt = 0;
-            Debug.Log($"[Win Check] ({startX}, {startY}) -> ({endX})");
             for (int i = startX, j = startY; i < endX; i++, j++)
             {
                 cnt = _oMokBoardData[j, i] == setColor ? cnt + 1 : 0;
@@ -122,6 +114,11 @@ namespace Game.GameManager
             }
         }
 
+        private void FullFieldCheck()
+        {
+            
+        }
+        
         private static int GetIncreaseValue(int position)
         {
             return position > FieldLimit ? FieldSize - position : WinCount;

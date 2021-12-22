@@ -12,9 +12,7 @@ namespace Game.GameManager
     public class GameUiManager : Singleton<GameUiManager>
     {
         #region 멤버 변수 & 프로퍼티
-
-        [SerializeField] private GameObject whiteTurnImage;
-        [SerializeField] private GameObject blackTurnImage;
+        
         [SerializeField] private Text roomIdText;
         [SerializeField] private Text winMessageText;
         [SerializeField] private Text resultText;
@@ -30,7 +28,14 @@ namespace Game.GameManager
         [SerializeField] private Toggle otherPlayerReadyStatus;
         [SerializeField] private GameObject readyPopup;
         [SerializeField] private GameObject resultPopup;
+        [SerializeField] private GameObject whiteTurnImage;
+        [SerializeField] private GameObject blackTurnImage;
+        [SerializeField] private GameObject stoneMarkImage;
+        [SerializeField] private Transform blackLogArea;
+        [SerializeField] private Transform whiteLogArea;
+        [SerializeField] private LogBlock logPrefab;
 
+        
         public bool IsStart { get; set; }
 
         public string OtherNameText
@@ -117,6 +122,32 @@ namespace Game.GameManager
         {
             whiteTurnImage.SetActive(!whiteTurnImage.activeSelf);
             blackTurnImage.SetActive(!blackTurnImage.activeSelf);
+        }
+
+        public void AddWhiteLog(int turn, Vector2 position)
+        {
+            var logBlock = Instantiate(logPrefab, whiteLogArea);
+            InitializeLogBlock(logBlock, turn, position);
+        }
+
+        public void AddBlackLog(int turn, Vector2 position)
+         {
+            var logBlock = Instantiate(logPrefab, blackLogArea);
+            InitializeLogBlock(logBlock, turn, position);
+        }
+
+        private void InitializeLogBlock(LogBlock logBlock, int turn, Vector2 StonePosition)
+        {
+            if (!stoneMarkImage.activeSelf)
+            {
+                stoneMarkImage.SetActive(true);
+            }
+            
+            logBlock.positionX = ((char) ('A' + StonePosition.x)).ToString();
+            logBlock.positionY = (int) StonePosition.y + 1;
+            var markPositionX = FieldManager.BoardPivotX + StonePosition.x;
+            var markPositionY = FieldManager.BoardPivotY - StonePosition.y;
+            stoneMarkImage.transform.localPosition = new Vector3(markPositionX, markPositionY, 0);
         }
     }
 }
