@@ -25,6 +25,15 @@ namespace Lobby
         public string UserName { get; set; } = "";
         public string OtherUserName { get; set; }
 
+
+        private void CheckNetworkState()
+        {
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                ConnectStatus = "Network Unreachable";
+            }
+        }
+        
         protected override void Awake()
         {
             dontDestroyOnLoad = true;
@@ -76,6 +85,7 @@ namespace Lobby
             Debug.Log("[Disconnect Room]");
             PhotonNetwork.Disconnect();
             ConnectStatus = "Room Connecting";
+            CheckNetworkState();
         }
 
         public override void OnConnectedToMaster()
@@ -159,6 +169,7 @@ namespace Lobby
             InitializedMatchingData(false, false, false);
             DisconnectRoom();
             Debug.Log("[OnDisconnected] : Disconnect Success");
+            LogManager.Instance.turnCount = 0;
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
