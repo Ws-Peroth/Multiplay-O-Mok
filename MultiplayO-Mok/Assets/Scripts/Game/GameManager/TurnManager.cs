@@ -68,7 +68,6 @@ namespace Game.GameManager
         {
             IsMyTurn = !IsMyTurn;
             GameUiManager.Instance.TurnOnStatusReverse();
-            Debug.Log($"Change Turn : {IsMyTurn.ToString()}");
         }
     }
 }

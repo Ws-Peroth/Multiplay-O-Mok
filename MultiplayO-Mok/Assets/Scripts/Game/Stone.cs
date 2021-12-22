@@ -40,14 +40,15 @@ namespace Game
         {
             if (!TurnManager.Instance.IsMyTurn) return;
             if (Status != 0) return;
-            Debug.Log("[Stone] ButtonOnClick");
+            // Debug.Log("[Stone] ButtonOnClick");
             SetStone(TurnManager.Instance.MyColor);
             EventSender.SendRaiseEvent(EventTypes.SetStone, new[] {PositionX, PositionY}, ReceiverGroup.Others);
         }
 
         public void SetStone(int setColor)
         {
-            Debug.Log($"Call Set Stone : color {setColor.ToString()}");
+            // Debug.Log($"Call Set Stone : color {setColor.ToString()}");
+            LogManager.Instance.PrintPositionLog(PositionX, PositionY, setColor);
             FieldManager.Instance.SetStone(PositionX, PositionY, setColor);
             TurnManager.Instance.TurnChange();
         }
@@ -56,7 +57,7 @@ namespace Game
         {
             if (!TurnManager.Instance.IsMyTurn) return;
             if (Status != 0) return;
-            Debug.Log("[Stone] OnMouseEnter");
+            // Debug.Log("[Stone] OnMouseEnter");
             SetSprite(TurnManager.Instance.MyColor);
             spriteImage.color = _alphaWhite;
         }
@@ -65,7 +66,7 @@ namespace Game
         {
             if (!TurnManager.Instance.IsMyTurn) return;
             if (Status != 0) return;
-            Debug.Log("[Stone] OnMouseExit");
+            // Debug.Log("[Stone] OnMouseExit");
             spriteImage.color = _defaultColor;
             SetSprite(StoneTypes.None);
         }

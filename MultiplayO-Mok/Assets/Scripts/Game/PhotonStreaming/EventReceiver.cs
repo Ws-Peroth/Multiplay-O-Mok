@@ -46,23 +46,23 @@ namespace Game.PhotonStreaming
             {
                 // When Received Raise Event
                 case EventTypes.SetStone:
-                    Debug.Log("[Receiver] SetStone");
+                    // Debug.Log("[Receiver] SetStone");
                     SetStoneEvent(data);
                     break;
                 case EventTypes.RequestReady:
-                    Debug.Log("[Receiver] RequestReady");
+                    // Debug.Log("[Receiver] RequestReady");
                     RequestReadyEvent(data);
                     break;
                 case EventTypes.AnswerReady:
-                    Debug.Log("[Receiver] AnswerReady");
+                    // Debug.Log("[Receiver] AnswerReady");
                     AnswerReadyEvent(data);
                     break;
                 case EventTypes.ReadyOver:
-                    Debug.Log("[Receiver] ReadyOver");
+                    // Debug.Log("[Receiver] ReadyOver");
                     ReadyOverEvent();
                     break;
                 case EventTypes.GameStart:
-                    Debug.Log("[Receiver] GameStart");
+                    // Debug.Log("[Receiver] GameStart");
                     GameStartEvent();
                     break;
                 case EventTypes.SetTurn:
@@ -81,7 +81,7 @@ namespace Game.PhotonStreaming
             var x = position[0];
             var y = position[1];
             FieldManager.Instance.OMokStoneGameObjects[y, x].SetStone(TurnManager.Instance.OtherColor);
-            Debug.Log($"[Receiver] Receive Position : ({x.ToString()}, {y.ToString()})");
+            // Debug.Log($"[Receiver] Receive Position : ({x.ToString()}, {y.ToString()})");
         }
 
         private static void RequestReadyEvent(object data)
@@ -89,7 +89,7 @@ namespace Game.PhotonStreaming
             var answer = TurnManager.Instance.PlayerReady;
             TurnManager.OtherPlayerReady((bool) data);
             EventSender.SendRaiseEvent(EventTypes.AnswerReady, answer, ReceiverGroup.Others);
-            Debug.Log("[Sender] Answer Ready");
+            // Debug.Log("[Sender] Answer Ready");
         }
 
         private static void AnswerReadyEvent(object data)
@@ -101,18 +101,18 @@ namespace Game.PhotonStreaming
             if (otherReady && playerReady)
             {
                 EventSender.SendRaiseEvent(EventTypes.ReadyOver, null, ReceiverGroup.MasterClient);
-                Debug.Log("[Sender] Ready Over");
+                // Debug.Log("[Sender] Ready Over");
                 return;
             }
 
-            Debug.Log($"playerReady = {playerReady.ToString()}, otherPlayerReady = {otherReady.ToString()}");
+            // Debug.Log($"playerReady = {playerReady.ToString()}, otherPlayerReady = {otherReady.ToString()}");
         }
 
         private static void ReadyOverEvent()
         {
             EventSender.SendRaiseEvent(EventTypes.GameStart, null, ReceiverGroup.All);
             TurnManager.Instance.SetPlayTurn();
-            Debug.Log("[Sender] GameStart");
+            // Debug.Log("[Sender] GameStart");
         }
 
         private static void GameStartEvent()
@@ -126,7 +126,7 @@ namespace Game.PhotonStreaming
             var turn = (bool) data;
             TurnManager.Instance.IsMyTurn = turn;
             TurnManager.Instance.SetPlayerTurnData();
-            Debug.Log($"[Receiver] MyTurn : {turn.ToString()}, Color : {TurnManager.Instance.MyColor.ToString()}");
+            // Debug.Log($"[Receiver] MyTurn : {turn.ToString()}, Color : {TurnManager.Instance.MyColor.ToString()}");
         }
 
         private static void SetPlayerName(object data)
