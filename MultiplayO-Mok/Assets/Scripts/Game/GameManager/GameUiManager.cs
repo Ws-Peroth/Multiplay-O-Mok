@@ -145,6 +145,7 @@ namespace Game.GameManager
             
             logBlock.positionX = ((char) ('A' + StonePosition.x)).ToString();
             logBlock.positionY = (int) StonePosition.y + 1;
+            logBlock.information.text = $"{turn.ToString()}수 ({logBlock.positionX}, {logBlock.positionY.ToString()})";
             var markPositionX = FieldManager.BoardPivotX + StonePosition.x;
             var markPositionY = FieldManager.BoardPivotY - StonePosition.y;
             stoneMarkImage.transform.localPosition = new Vector3(markPositionX, markPositionY, 0);

@@ -10,5 +10,7 @@ namespace Game
         public Text information;
         public string positionX;
         public int positionY;
+        
+        
     }
 }

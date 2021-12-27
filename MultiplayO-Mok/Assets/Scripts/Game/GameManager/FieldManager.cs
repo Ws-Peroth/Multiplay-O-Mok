@@ -116,7 +116,7 @@ namespace Game.GameManager
 
         private void FullFieldCheck()
         {
-            
+            // 필드에 더 이상 둘 곳이 없는지 확인
         }
         
         private static int GetIncreaseValue(int position)
